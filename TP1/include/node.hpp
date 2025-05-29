@@ -11,7 +11,7 @@ class node {
     public:
         node();
 
-    friend class TAD;
+    friend class listaEncadeada;
 };
 
 #endif

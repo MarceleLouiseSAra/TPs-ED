@@ -1,9 +1,9 @@
-#ifndef TAD_H
-#define TAD_H
+#ifndef listaEncadeada_H
+#define listaEncadeada_H
 #include "node.hpp"
 #include <string>
 
-class TAD {
+class listaEncadeada {
     private:
         int tam;
         node* firstOne;
@@ -13,8 +13,8 @@ class TAD {
 
     public:
     
-        TAD();
-        ~TAD();
+        listaEncadeada();
+        ~listaEncadeada();
 
         int getItem(int pos);
         void setItem(int item, int pos);

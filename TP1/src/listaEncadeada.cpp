@@ -1,16 +1,16 @@
 #include "node.hpp"
-#include "TAD.hpp"
+#include "listaEncadeada.hpp"
 #include <iostream>
 
 using namespace std;
 
-TAD::TAD() {
+listaEncadeada::listaEncadeada() {
     this->tam = 0;
     this->firstOne = new node(); // item = -1 e next = nullptr
     this->lastOne = this->firstOne;
 };
 
-TAD::~TAD() {
+listaEncadeada::~listaEncadeada() {
     this->clean();
     delete this->firstOne;
 
@@ -18,7 +18,7 @@ TAD::~TAD() {
 
 };
 
-node* TAD::position(int pos, bool previous) { // Melhor caso: O(1); pior caso: O(n)
+node* listaEncadeada::position(int pos, bool previous) { // Melhor caso: O(1); pior caso: O(n)
 
     if (pos > this->tam) {
         throw "ERRO: posição inválida!";
@@ -44,7 +44,7 @@ node* TAD::position(int pos, bool previous) { // Melhor caso: O(1); pior caso: O
 
 };
 
-int TAD::getItem(int pos) {
+int listaEncadeada::getItem(int pos) {
     node* p;
 
     p = this->position(pos, true);
@@ -53,7 +53,7 @@ int TAD::getItem(int pos) {
 
 };
 
-void TAD::setItem(int item, int pos) {
+void listaEncadeada::setItem(int item, int pos) {
     node* p;
 
     p = this->position(pos, true);
@@ -62,7 +62,7 @@ void TAD::setItem(int item, int pos) {
 };
 
 
-void TAD::insertInTheBeginning(int item) {
+void listaEncadeada::insertInTheBeginning(int item) {
 
     node* newNode;
     newNode = new node;
@@ -78,7 +78,7 @@ void TAD::insertInTheBeginning(int item) {
     this->tam++;
 };
 
-void TAD::insertInTheEnd(int item) {
+void listaEncadeada::insertInTheEnd(int item) {
 
     node* newNode;
     newNode = new node;
@@ -90,7 +90,7 @@ void TAD::insertInTheEnd(int item) {
     this->tam++;
 };
 
-void TAD::insertAtPosition(int item, int pos) {
+void listaEncadeada::insertAtPosition(int item, int pos) {
 
     node* newNode;
     newNode = new node;
@@ -110,7 +110,7 @@ void TAD::insertAtPosition(int item, int pos) {
 
 };
 
-int TAD::removeFirstOne() {
+int listaEncadeada::removeFirstOne() {
     
     int aux;
     node* p;
@@ -133,7 +133,7 @@ int TAD::removeFirstOne() {
     return aux;
 };
 
-int TAD::removeLastOne() {
+int listaEncadeada::removeLastOne() {
 
     int aux;
     node* p;
@@ -152,7 +152,7 @@ int TAD::removeLastOne() {
     return aux;
 };
 
-int TAD::removePosition(int pos) {
+int listaEncadeada::removePosition(int pos) {
     
     int aux;
     node *p, *q;
@@ -176,11 +176,11 @@ int TAD::removePosition(int pos) {
     return aux;
 };
 
-int TAD::search(int key) {
+int listaEncadeada::search(int key) {
     return 0;
 };
 
-void TAD::print() {
+void listaEncadeada::print() {
 
     node* p;
 
@@ -196,7 +196,7 @@ void TAD::print() {
 
 };
 
-void TAD::clean() {
+void listaEncadeada::clean() {
 
     node* p;
 
