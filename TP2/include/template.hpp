@@ -36,7 +36,7 @@ class Vetor {
         // delete[] p;
     }
 
-    void SetElemento(int i, T x){
+    void SetElemento(int i, T x) {
         if(i < this->n){
             p[i] = x;
         }
@@ -60,10 +60,10 @@ class Vetor {
     void Imprime(){
 
         for(int i = 0; i < this->n; i++){
-            cout << ' ' << this->p[i];
+            cout << this->p[i] << " ";
         }
 
-        cout << '\n';
+        cout << "\n";
     }
 
 

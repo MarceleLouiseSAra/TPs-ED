@@ -11,7 +11,7 @@ grafo::grafo(int v) {
     adjLista = Vetor<Vetor<int>>(numVertices); // Matriz de numVertices linhas
 
     for (int i = 0; i < this->numVertices; i++) {
-        Vetor<int> vetorInterno(1); // Vértice com espaço para 1 vizinho inicialmente
+        Vetor<int> vetorInterno(0); // Vértice 0 vizinhos inicialmente
         this->adjLista.SetElemento(i, vetorInterno);
     }
 }
@@ -22,7 +22,10 @@ void grafo::adicionarAresta(int u, int v) {
 
     aux = this->adjLista.GetElemento(v);
 
+    aux.n++;
+
     aux.AdicionaElemento(u);
+
 
     this->adjLista.SetElemento(v, aux);
 

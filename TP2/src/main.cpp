@@ -14,18 +14,26 @@ void testListaEncadeada() {}
 void testGrafo(grafo &teste){
 
     teste.adicionarAresta(4, 0);
-
     teste.adicionarAresta(5, 0);
+    teste.adicionarAresta(6, 0);
 
-    teste.adicionarAresta(4, 1);
+    teste.adicionarAresta(1, 1);
+    teste.adicionarAresta(2, 1);
 
-    teste.adicionarAresta(4, 2);
 
-    teste.adicionarAresta(4, 3);
+    teste.adicionarAresta(7, 2);
+    teste.adicionarAresta(8, 2);
 
-    teste.adicionarAresta(4, 4);
+    teste.adicionarAresta(1, 3);
+    teste.adicionarAresta(2, 3);
+
+    teste.adicionarAresta(1, 4);
+    teste.adicionarAresta(2, 4);
+    teste.adicionarAresta(3, 4);
 
     teste.adicionarAresta(4, 5);
+    teste.adicionarAresta(5, 5);
+    teste.adicionarAresta(6, 5);
 
     teste.imprimeGrafo();
 
