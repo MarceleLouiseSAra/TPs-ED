@@ -26,8 +26,15 @@ void grafo::adicionarAresta(int u, int v) {
 
     aux.AdicionaElemento(u);
 
-
     this->adjLista.SetElemento(v, aux);
+
+    aux = this->adjLista.GetElemento(u);
+
+    aux.n++;
+
+    aux.AdicionaElemento(v);
+
+    this->adjLista.SetElemento(u, aux);
 
 }
 
