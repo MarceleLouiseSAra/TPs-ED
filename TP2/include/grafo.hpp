@@ -11,11 +11,13 @@ class grafo {
 
     public:
         grafo(int v);
+        ~grafo();
 
         void adicionarAresta(int u, int v);
         void removerAresta(int u, int v);
         bool verificaAresta(int u, int v);
         void imprimeGrafo();
+        void limpa();
 
 };
 

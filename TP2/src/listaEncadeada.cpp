@@ -14,7 +14,7 @@ listaEncadeada::~listaEncadeada() {
     this->clean();
     delete this->firstOne;
 
-    cout << "Destrutor foi chamado." << endl;
+    // cout << "Destrutor foi chamado." << endl;
 
 };
 

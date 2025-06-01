@@ -1,6 +1,6 @@
 #include "node.hpp"
 #include "listaEncadeada.hpp"
-#include "pilha.hpp"
+#include "pilhaEncadeada.hpp"
 #include "grafo.hpp"
 #include "heap.hpp"
 #include <iostream>
@@ -9,7 +9,57 @@
 
 using namespace std;
 
-void testListaEncadeada() {}
+void testListaEncadeada(listaEncadeada &teste) {
+
+    teste.insertInTheBeginning(2);
+
+    teste.insertInTheBeginning(1);
+
+    teste.insertInTheEnd(9);
+
+    teste.print(); // 1, 2, 9
+
+    int x;
+    x = teste.getItem(0); // 1
+    cout << x << endl;
+
+    teste.setItem(8, 1);
+
+    teste.insertAtPosition(7, 0);
+
+    teste.print(); // 7, 8, 9
+
+    teste.removeFirstOne();
+
+    teste.removeLastOne();
+
+    teste.print(); // 8
+
+    teste.insertInTheEnd(2);
+
+    teste.insertInTheBeginning(1);
+
+    teste.print(); // 1, 8, 2
+
+    teste.removePosition(1);
+
+    teste.print(); // 1, 2
+
+}
+
+void testPilhaEncadeada(pilhaEncadeada &teste) {
+    
+    teste.empilha(1);
+
+    teste.empilha(2);
+
+    teste.desempilha();
+
+    teste.empilha(3);
+
+    teste.imprime();
+    
+}
 
 void testGrafo(grafo &teste){
 
@@ -29,7 +79,7 @@ void testGrafo(grafo &teste){
     // Vértice 3 tem 1 vizinho: 5
 
     // Vértice 4 tem 3 vizinhos: 1 e 2
-    
+
     // Vértice 5 tem 3 vizinhos: 0, 1 e 3
 
     teste.imprimeGrafo();
@@ -38,9 +88,17 @@ void testGrafo(grafo &teste){
 
 int main () {
 
-    grafo teste(6); // Grafo com 6 vértices
+    listaEncadeada listaEncadeada;
 
-    testGrafo(teste);
+    // testListaEncadeada(listaEncadeada);
+
+    pilhaEncadeada pilhaEncadeada;
+
+    testPilhaEncadeada(pilhaEncadeada);
+
+    grafo grafo(6); // Grafo com 6 vértices
+
+    // testGrafo(grafo);
 
     return 0;
 }

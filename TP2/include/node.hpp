@@ -12,6 +12,7 @@ class node {
         node();
 
     friend class listaEncadeada;
+    friend class pilhaEncadeada;
 };
 
 #endif

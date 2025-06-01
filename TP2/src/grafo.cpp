@@ -16,6 +16,10 @@ grafo::grafo(int v) {
     }
 }
 
+grafo::~grafo() {
+    this->limpa();
+}
+
 void grafo::adicionarAresta(int u, int v) {
 
     Vetor<int> aux;
@@ -56,4 +60,8 @@ void grafo::imprimeGrafo() {
         aux.Imprime();
     }
 
+}
+
+void grafo::limpa() {
+    return;
 }
