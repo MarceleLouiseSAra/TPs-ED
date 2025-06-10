@@ -6,9 +6,6 @@
 using namespace std;
 
 void heap::swap (int i, int j) {
-
-    cout << maxHeap.GetElemento(i) << endl;
-    cout << maxHeap.GetElemento(j) << endl;
     
     int aux = maxHeap.GetElemento(i);
     maxHeap.SetElemento(i, maxHeap.GetElemento(j));
@@ -64,7 +61,6 @@ void heap::heapifyUp() {
 
     while (this->existeAncestral(indexAtual) && maxHeap.GetElemento(getAncestralIndex(indexAtual)) < maxHeap.GetElemento(indexAtual)) {
 
-        cout << "entrei no while" << endl;
         swap(indexAtual, getAncestralIndex(indexAtual));
         indexAtual = getAncestralIndex(indexAtual);
 
