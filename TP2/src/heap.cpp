@@ -6,6 +6,9 @@
 using namespace std;
 
 void heap::swap (int i, int j) {
+
+    cout << maxHeap.GetElemento(i) << endl;
+    cout << maxHeap.GetElemento(j) << endl;
     
     int aux = maxHeap.GetElemento(i);
     maxHeap.SetElemento(i, maxHeap.GetElemento(j));
@@ -15,7 +18,7 @@ void heap::swap (int i, int j) {
 
 int heap::size() {
 
-    return maxHeap.n;
+    return maxHeap.i;
 }
 
 bool heap::isEmpty() {
@@ -23,7 +26,11 @@ bool heap::isEmpty() {
     return this->size() == 0;
 }
 
-heap::heap() {}
+heap::heap() {
+
+    maxHeap = Vetor<int>(7);
+
+}
 
 int heap::getAncestralIndex (int i) {
     return (i-1)/2;
@@ -53,12 +60,13 @@ bool heap::existeSucessorDir (int i) {
 
 void heap::heapifyUp() {
 
-    int last = (this->size()-1);
+    int indexAtual = (this->size()-1); // Index do último elemento adicionado
 
-    while (maxHeap.GetElemento(getAncestralIndex(last)) && maxHeap.GetElemento(getAncestralIndex(last)) > maxHeap.GetElemento(last)) {
+    while (this->existeAncestral(indexAtual) && maxHeap.GetElemento(getAncestralIndex(indexAtual)) < maxHeap.GetElemento(indexAtual)) {
 
-        swap(last, getAncestralIndex(last));
-        last--;
+        cout << "entrei no while" << endl;
+        swap(indexAtual, getAncestralIndex(indexAtual));
+        indexAtual = getAncestralIndex(indexAtual);
 
     }
 }

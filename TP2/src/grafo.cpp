@@ -47,7 +47,6 @@ void grafo::removerAresta(int u, int v) {
 }
 
 bool grafo::verificaAresta(int u, int v) {
-
     return false;
 }
 

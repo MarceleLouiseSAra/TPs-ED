@@ -86,6 +86,19 @@ void testGrafo(grafo &teste){
 
 }
 
+void testaHeap(heap &teste) {
+
+    teste.insert(13);
+    teste.insert(15);
+    teste.insert(8);
+    teste.insert(23);
+    teste.insert(21);
+    teste.insert(9);
+    teste.insert(2);
+
+    teste.printHeap();
+}
+
 int main () {
 
     listaEncadeada listaEncadeada;
@@ -94,11 +107,15 @@ int main () {
 
     pilhaEncadeada pilhaEncadeada;
 
-    testPilhaEncadeada(pilhaEncadeada);
+    // testPilhaEncadeada(pilhaEncadeada);
 
     grafo grafo(6); // Grafo com 6 vértices
 
     // testGrafo(grafo);
+
+    heap heap;
+
+    testaHeap(heap);
 
     return 0;
 }

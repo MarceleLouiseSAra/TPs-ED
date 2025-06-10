@@ -52,7 +52,9 @@ class Vetor {
 
     void removeUltimoElemento() {
         if(this->i < n){
-            delete this->p[i];
+            int *auxPointer;
+            auxPointer = &p[i];
+            delete auxPointer;
             this->i--;
         }
     }
