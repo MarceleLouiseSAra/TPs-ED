@@ -29,13 +29,6 @@ class Vetor {
         this->p = new T[this->n];
     }
 
-    ~Vetor(){
-
-        // cout << "entrei no destrutor de template" << endl;
-
-        // delete[] p;
-    }
-
     void SetElemento(int i, T x) {
         if(i < this->n){
             p[i] = x;
@@ -54,6 +47,13 @@ class Vetor {
         if(this->i < n){
             this->p[i] = x;
             this->i++;
+        }
+    }
+
+    void removeUltimoElemento() {
+        if(this->i < n){
+            delete this->p[i];
+            this->i--;
         }
     }
 
