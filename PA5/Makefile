@@ -21,5 +21,5 @@ all: pa5.out
 
 build: pa5.out greetings
 
-clean: $(OBJ_DIR)/main.o $(OBJ_DIR)/Set.o
+clean: $(OBJ_DIR)/main.o $(OBJ_DIR)/Set.o $(BIN_DIR)/pa5.out
 	rm $^
