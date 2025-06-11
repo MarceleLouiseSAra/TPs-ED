@@ -73,9 +73,7 @@ int StringSet::proximoPrimo(int n) {
 
 }
 
-void StringSet::Rehash(int pos) {}
-
-void StringSet::Resize(size_t novoTamanho) {
+void StringSet::Resize(size_t novoTamanho) { // contém a lógica de rehash (encontrar o próximo slot em caso de colisão)
 
     novoTamanho = proximoPrimo(static_cast<int>(novoTamanho));
 

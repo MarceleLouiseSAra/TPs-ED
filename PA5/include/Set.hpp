@@ -21,7 +21,6 @@ class StringSet {
 
         int Hash(string s);
         static int proximoPrimo(int n);
-        void Rehash(int pos);
         void Resize(size_t novoTamanho);
 
     public:
