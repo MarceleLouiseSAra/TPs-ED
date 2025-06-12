@@ -1,16 +1,15 @@
 #include "heap.hpp"
-#include "template.hpp"
+#include "listaEncadeada.hpp"
 #include <iostream>
 #include <string>
 
 using namespace std;
 
 void heap::swap (int i, int j) {
-    
-    int aux = Heap.getItem(i);
-    Heap.setItem(i, Heap.getItem(j));
-    Heap.setItem(j, aux);
-
+    int val_i = Heap.getItem(i); // Obter o valor em i
+    int val_j = Heap.getItem(j); // Obter o valor em j
+    Heap.setItem(val_j, i);      // Colocar o valor de j na posição i
+    Heap.setItem(val_i, j);      // Colocar o valor de i na posição j
 }
 
 bool heap::isEmpty() {
@@ -21,69 +20,85 @@ bool heap::isEmpty() {
 heap::heap() {}
 
 int heap::getAncestralIndex (int i) {
-    return (i-1)/2;
+    
+    // return (i-1)/2;
+
+    if (i <= 1) return 0;
+    return i / 2;
 }
 
 int heap::getSucessorEsqIndex (int i) {
-    return (2*i)+1;
+    return 2*i;
 }
 
 int heap::getSucessorDirIndex (int i) {
-    return (2*i)+2;
+    return (2*i)+1;
 }
 
 bool heap::existeAncestral (int i) {
-    return getAncestralIndex(i) >= 0;
+    return getAncestralIndex(i) >= 1;
 }
 
 bool heap::existeSucessorEsq (int i) {
-    return getSucessorEsqIndex(i) < Heap.size();
+    return getSucessorEsqIndex(i) <= Heap.size();
 }
 
 bool heap::existeSucessorDir (int i) {
-    return getSucessorDirIndex(i) < Heap.size();
+    return getSucessorDirIndex(i) <= Heap.size();
 }
 
 // ajusta o heap para cima após inserção
 
 void heap::heapifyUp() {
 
-    int indexAtual = (Heap.size()-1); // Index do último elemento adicionado
+    int indexAtual = (Heap.size()); // Index do último elemento adicionado
 
+    cout << "indexAtual: " << indexAtual << endl;
+    cout << "this->existeAncestral(indexAtual): " << this->existeAncestral(indexAtual) << endl;
+    cout << "Heap.getItem(getAncestralIndex(indexAtual)): " << Heap.getItem(getAncestralIndex(indexAtual)) << endl;
+    cout << "Heap.getItem(indexAtual): " << Heap.getItem(indexAtual) << endl;
+    cout << endl;
+
+    this->printHeap();
+
+    
     while (this->existeAncestral(indexAtual) && Heap.getItem(getAncestralIndex(indexAtual)) < Heap.getItem(indexAtual)) {
-
+        
         swap(indexAtual, getAncestralIndex(indexAtual));
         indexAtual = getAncestralIndex(indexAtual);
-
+        
     }
+
+    this->printHeap();
+    cout << endl;
 }
 
 // ajusta o heap para baixo após uma remoção
 
 void heap::heapifyDown () {
 
-    int indexAtual = 0;
+    int indexAtual = 1;
 
     // enquanto o nó tiver filhos  à esquerda
 
     while (getSucessorEsqIndex(indexAtual)) {
 
-        int filhoMaior = getSucessorEsqIndex(indexAtual); // filhoMaior é o index do elemento à esquerda
+        int filhoMaiorIndex = getSucessorEsqIndex(indexAtual); // filhoMaiorIndex é o index do elemento à esquerda
 
         // verifica se o filho direito existe e se é maior que o irmão
-        if (existeSucessorDir(indexAtual) && Heap.getItem(getSucessorDirIndex(indexAtual)) > Heap.getItem(getSucessorEsqIndex(indexAtual))) {
+        if (existeSucessorDir(indexAtual) && Heap.getItem(getSucessorDirIndex(indexAtual)) > Heap.getItem(filhoMaiorIndex)) {
 
-            filhoMaior = Heap.getItem(getSucessorDirIndex(indexAtual));
+            filhoMaiorIndex = this->getSucessorDirIndex(indexAtual);
         }
 
-        // Se o elemento atual for maior ou igual a filhoMaior, o heap está correto 
-        if (Heap.getItem(indexAtual) >= Heap.getItem(filhoMaior)) {
+        // Se o elemento atual for maior ou igual a filhoMaiorIndex, o heap está correto 
+        if (Heap.getItem(indexAtual) >= Heap.getItem(filhoMaiorIndex)) {
 
             break;
-        } else { // caso contrário, trocam-se de lugar o elemento do index atual com o do index filhoMaior
+        } else { // caso contrário, trocam-se de lugar o elemento do index atual com o do index filhoMaiorIndex
 
-            swap(indexAtual, filhoMaior);
-            indexAtual = filhoMaior;
+            swap(indexAtual, filhoMaiorIndex);
+            indexAtual = filhoMaiorIndex;
         }
 
     }

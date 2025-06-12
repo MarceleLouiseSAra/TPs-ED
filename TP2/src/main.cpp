@@ -117,7 +117,7 @@ int main () {
 
     listaEncadeada listaEncadeada;
 
-    testListaEncadeada(listaEncadeada);
+    // testListaEncadeada(listaEncadeada);
 
     pilhaEncadeada pilhaEncadeada;
 
@@ -127,9 +127,9 @@ int main () {
 
     // testGrafo(grafo);
 
-    // heap heap;
+    heap heap;
 
-    // testaHeap(heap);
+    testaHeap(heap);
 
     return 0;
 }

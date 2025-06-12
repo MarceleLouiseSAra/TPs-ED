@@ -24,8 +24,9 @@ int listaEncadeada::size() {
 
 node* listaEncadeada::position(int pos, bool previous) { // Melhor caso: O(1); pior caso: O(n)
 
+
     if (pos > this->tam) {
-        throw "ERRO: posição inválida!";
+        cout << "ERRO: posição inválida!";
     }
 
     node* p;
@@ -48,6 +49,7 @@ node* listaEncadeada::position(int pos, bool previous) { // Melhor caso: O(1); p
 
 int listaEncadeada::getItem(int pos) {
     node* p;
+
 
     p = this->position(pos, false);
 
