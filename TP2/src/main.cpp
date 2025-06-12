@@ -20,30 +20,42 @@ void testListaEncadeada(listaEncadeada &teste) {
     teste.print(); // 1, 2, 9
 
     int x;
-    x = teste.getItem(0); // 1
+    x = teste.getItem(1); // 1
+    cout << x << endl;
+    x = teste.getItem(2); // 2
+    cout << x << endl;
+    x = teste.getItem(3); // 9
     cout << x << endl;
 
     teste.setItem(8, 1);
 
-    teste.insertAtPosition(7, 0);
+    teste.print(); // 8, 2, 9
 
-    teste.print(); // 7, 8, 9
+    x = teste.getItem(1); // 8
+    cout << x << endl;
 
-    teste.removeFirstOne();
+    teste.insertAtPosition(7, 1);
 
-    teste.removeLastOne();
+    teste.print(); // 7, 8, 2, 9
 
-    teste.print(); // 8
+    x = teste.getItem(1); // 7
+    cout << x << endl;
 
-    teste.insertInTheEnd(2);
+    // teste.removeFirstOne();
 
-    teste.insertInTheBeginning(1);
+    // teste.removeLastOne();
 
-    teste.print(); // 1, 8, 2
+    // teste.print(); // 8
 
-    teste.removePosition(1);
+    // teste.insertInTheEnd(2);
 
-    teste.print(); // 1, 2
+    // teste.insertInTheBeginning(1);
+
+    // teste.print(); // 1, 8, 2
+
+    // teste.removePosition(1);
+
+    // teste.print(); // 1, 2
 
 }
 
@@ -103,7 +115,7 @@ int main () {
 
     listaEncadeada listaEncadeada;
 
-    // testListaEncadeada(listaEncadeada);
+    testListaEncadeada(listaEncadeada);
 
     pilhaEncadeada pilhaEncadeada;
 
@@ -113,9 +125,9 @@ int main () {
 
     // testGrafo(grafo);
 
-    heap heap;
+    // heap heap;
 
-    testaHeap(heap);
+    // testaHeap(heap);
 
     return 0;
 }

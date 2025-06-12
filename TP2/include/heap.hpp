@@ -1,5 +1,6 @@
 #ifndef heap_H
 #define heap_H
+#include "listaEncadeada.hpp"
 #include "template.hpp"
 #include <string>
 
@@ -7,7 +8,7 @@ class heap {
 
     private:
 
-        Vetor<int> maxHeap; // maxHeap
+        listaEncadeada Heap; // maxHeap
         void swap(int i, int j);
         bool existeAncestral(int i);
         bool existeSucessorEsq(int i);

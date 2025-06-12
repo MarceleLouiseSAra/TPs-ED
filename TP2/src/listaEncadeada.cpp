@@ -18,6 +18,10 @@ listaEncadeada::~listaEncadeada() {
 
 };
 
+int listaEncadeada::size() {
+    return this->tam;
+}
+
 node* listaEncadeada::position(int pos, bool previous) { // Melhor caso: O(1); pior caso: O(n)
 
     if (pos > this->tam) {

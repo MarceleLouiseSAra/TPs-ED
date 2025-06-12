@@ -16,6 +16,7 @@ class listaEncadeada {
         listaEncadeada();
         ~listaEncadeada();
 
+        int size();
         int getItem(int pos);
         void setItem(int item, int pos);
         void insertInTheBeginning(int item);

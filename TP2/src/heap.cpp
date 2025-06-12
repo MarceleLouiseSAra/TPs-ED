@@ -7,27 +7,18 @@ using namespace std;
 
 void heap::swap (int i, int j) {
     
-    int aux = maxHeap.GetElemento(i);
-    maxHeap.SetElemento(i, maxHeap.GetElemento(j));
-    maxHeap.SetElemento(j, aux);
+    int aux = Heap.getItem(i);
+    Heap.setItem(i, Heap.getItem(j));
+    Heap.setItem(j, aux);
 
-}
-
-int heap::size() {
-
-    return maxHeap.i;
 }
 
 bool heap::isEmpty() {
 
-    return this->size() == 0;
+    return Heap.size() == 0;
 }
 
-heap::heap() {
-
-    maxHeap = Vetor<int>(7);
-
-}
+heap::heap() {}
 
 int heap::getAncestralIndex (int i) {
     return (i-1)/2;
@@ -46,20 +37,20 @@ bool heap::existeAncestral (int i) {
 }
 
 bool heap::existeSucessorEsq (int i) {
-    return getSucessorEsqIndex(i) < this->size();
+    return getSucessorEsqIndex(i) < Heap.size();
 }
 
 bool heap::existeSucessorDir (int i) {
-    return getSucessorDirIndex(i) < this->size();
+    return getSucessorDirIndex(i) < Heap.size();
 }
 
 // ajusta o heap para cima após inserção
 
 void heap::heapifyUp() {
 
-    int indexAtual = (this->size()-1); // Index do último elemento adicionado
+    int indexAtual = (Heap.size()-1); // Index do último elemento adicionado
 
-    while (this->existeAncestral(indexAtual) && maxHeap.GetElemento(getAncestralIndex(indexAtual)) < maxHeap.GetElemento(indexAtual)) {
+    while (this->existeAncestral(indexAtual) && Heap.getItem(getAncestralIndex(indexAtual)) < Heap.getItem(indexAtual)) {
 
         swap(indexAtual, getAncestralIndex(indexAtual));
         indexAtual = getAncestralIndex(indexAtual);
@@ -80,13 +71,13 @@ void heap::heapifyDown () {
         int filhoMaior = getSucessorEsqIndex(indexAtual); // filhoMaior é o index do elemento à esquerda
 
         // verifica se o filho direito existe e se é maior que o irmão
-        if (existeSucessorDir(indexAtual) && maxHeap.GetElemento(getSucessorDirIndex(indexAtual)) > maxHeap.GetElemento(getSucessorEsqIndex(indexAtual))) {
+        if (existeSucessorDir(indexAtual) && Heap.getItem(getSucessorDirIndex(indexAtual)) > Heap.getItem(getSucessorEsqIndex(indexAtual))) {
 
-            filhoMaior = maxHeap.GetElemento(getSucessorDirIndex(indexAtual));
+            filhoMaior = Heap.getItem(getSucessorDirIndex(indexAtual));
         }
 
         // Se o elemento atual for maior ou igual a filhoMaior, o heap está correto 
-        if (maxHeap.GetElemento(indexAtual) >= maxHeap.GetElemento(filhoMaior)) {
+        if (Heap.getItem(indexAtual) >= Heap.getItem(filhoMaior)) {
 
             break;
         } else { // caso contrário, trocam-se de lugar o elemento do index atual com o do index filhoMaior
@@ -101,7 +92,7 @@ void heap::heapifyDown () {
 
 void heap::insert(int key) {
 
-    maxHeap.AdicionaElemento(key);
+    Heap.insertInTheEnd(key);
     this->heapifyUp();
 }
 
@@ -109,14 +100,15 @@ void heap::insert(int key) {
 int heap::extractMax() {
 
     if (this->isEmpty()) {
-        throw "Heap vazio!";
+        cout << "Heap vazio!" << endl;
+        return 0;
     }
 
-    int raiz = maxHeap.GetElemento(0);
+    int raiz = Heap.getItem(0);
 
-    swap(0, (this->size()-1));
+    swap(0, (Heap.size()-1));
 
-    maxHeap.removeUltimoElemento();
+    Heap.removeFirstOne();
 
     heapifyDown();
 
@@ -126,5 +118,5 @@ int heap::extractMax() {
 
 void heap::printHeap() {
 
-    maxHeap.Imprime();
+    Heap.print();
 }
