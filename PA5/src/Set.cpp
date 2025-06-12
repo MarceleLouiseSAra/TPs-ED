@@ -233,10 +233,10 @@ StringSet* StringSet::DiferencaSimetrica(StringSet* S) {
     StringSet* intersecao = this->Intersecao(S);
     StringSet* resultado = new StringSet((*uniao).tamanhoConjunto);
 
-    for (int i = 0; i < uniao->tamanhoTabela; ++i) {
-        if (!uniao->tabela[i].vazio && !uniao->tabela[i].retirada) {
-            if (!intersecao->Pertence(uniao->tabela[i].dado)) {
-                resultado->Inserir(uniao->tabela[i].dado);
+    for (int i = 0; i < (*uniao).tamanhoTabela; ++i) {
+        if (!(*uniao).tabela[i].vazio && !(*uniao).tabela[i].retirada) {
+            if (!(*intersecao).Pertence((*uniao).tabela[i].dado)) {
+                (*resultado).Inserir((*uniao).tabela[i].dado);
             }
         }
     }
