@@ -52,13 +52,11 @@ int StringSet::proximoPrimo(int n) {
     while (!found) {
 
         novoPrimo++;
-        bool ehPrimo = true;
 
         for (int i = 2; i * i <= novoPrimo; ++i) {
 
             if (novoPrimo % i == 0) {
 
-                ehPrimo = false;
                 break;
             }
         }
@@ -250,21 +248,29 @@ StringSet* StringSet::DiferencaSimetrica(StringSet* S) {
 
 void StringSet::Imprimir() {
 
+    bool controle = false;
+
+    cout << "{ ";
+
     for (int i = 0; i < tamanhoTabela; ++i) {
 
         if (tabela[i].vazio) {
 
-            cout << "Vazio";
-
-        } else if (tabela[i].retirada) {
-
-            cout << "[RETIRADA]";
+            cout << "";
 
         } else {
 
-            cout << "'" << tabela[i].dado << "'";
+            if (controle) {
+                cout << ", ";
+            }
+
+            cout << tabela[i].dado;
+
+            controle = true;
         }
 
-        cout << endl;
     }
+
+    cout << " }" << endl;
+
 }

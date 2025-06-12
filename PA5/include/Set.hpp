@@ -1,7 +1,7 @@
 #ifndef Set_HPP
 #define Set_HPP
+#include <string>
 
-#include <bits/stdc++.h>
 using namespace std;
 
 typedef struct s_table_elem {
