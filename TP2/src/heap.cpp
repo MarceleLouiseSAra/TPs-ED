@@ -6,10 +6,11 @@
 using namespace std;
 
 void heap::swap (int i, int j) {
-    int val_i = Heap.getItem(i); // Obter o valor em i
-    int val_j = Heap.getItem(j); // Obter o valor em j
-    Heap.setItem(val_j, i);      // Colocar o valor de j na posição i
-    Heap.setItem(val_i, j);      // Colocar o valor de i na posição j
+
+    int aux = Heap.getItem(i);
+    Heap.setItem(Heap.getItem(j), i);
+    Heap.setItem(aux, j);
+    
 }
 
 bool heap::isEmpty() {
@@ -52,15 +53,6 @@ bool heap::existeSucessorDir (int i) {
 void heap::heapifyUp() {
 
     int indexAtual = (Heap.size()); // Index do último elemento adicionado
-
-    cout << "indexAtual: " << indexAtual << endl;
-    cout << "this->existeAncestral(indexAtual): " << this->existeAncestral(indexAtual) << endl;
-    cout << "Heap.getItem(getAncestralIndex(indexAtual)): " << Heap.getItem(getAncestralIndex(indexAtual)) << endl;
-    cout << "Heap.getItem(indexAtual): " << Heap.getItem(indexAtual) << endl;
-    cout << endl;
-
-    this->printHeap();
-
     
     while (this->existeAncestral(indexAtual) && Heap.getItem(getAncestralIndex(indexAtual)) < Heap.getItem(indexAtual)) {
         
@@ -69,8 +61,6 @@ void heap::heapifyUp() {
         
     }
 
-    this->printHeap();
-    cout << endl;
 }
 
 // ajusta o heap para baixo após uma remoção
