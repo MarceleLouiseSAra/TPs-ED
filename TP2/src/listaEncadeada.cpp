@@ -31,15 +31,13 @@ node* listaEncadeada::position(int pos, bool previous) { // Melhor caso: O(1); p
     node* p;
     int i;
 
-    p = this->firstOne->next;
+    p = this->firstOne;
 
     // posiciona o apontador na célula anterior à desejada
     for (i=1; i<pos; i++) {
         p = (*p).next;
     }
 
-    // posiciona o apontador na célula propriamente dita se previous for true
-    // e na célula anterior se previous for false
     if (!previous) {
         p = (*p).next;
     }
@@ -51,7 +49,7 @@ node* listaEncadeada::position(int pos, bool previous) { // Melhor caso: O(1); p
 int listaEncadeada::getItem(int pos) {
     node* p;
 
-    p = this->position(pos, true);
+    p = this->position(pos, false);
 
     return (*p).item;
 
@@ -60,7 +58,7 @@ int listaEncadeada::getItem(int pos) {
 void listaEncadeada::setItem(int item, int pos) {
     node* p;
 
-    p = this->position(pos, true);
+    p = this->position(pos, false);
 
     (*p).item = item;
 };
@@ -101,7 +99,7 @@ void listaEncadeada::insertAtPosition(int item, int pos) {
     (*newNode).item = item;
 
     node* p;
-    p = position(pos-1, true);
+    p = position(pos, true);
 
     (*newNode).next = (*p).next;
     (*p).next = newNode;
@@ -146,7 +144,7 @@ int listaEncadeada::removeLastOne() {
         throw "ERROR: Lista vazia!";
     }
 
-    p = position(this->tam-2, true);
+    p = position(this->tam, true);
     
     (*p).next = NULL;
     aux = (*lastOne).item;
@@ -165,7 +163,7 @@ int listaEncadeada::removePosition(int pos) {
         throw "ERROR: Lista vazia!";
     }
 
-    p = position(pos-1, true);
+    p = position(pos, true);
 
     q = (*p).next;
     (*p).next = (*q).next;

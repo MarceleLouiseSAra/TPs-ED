@@ -17,22 +17,22 @@ void testListaEncadeada(listaEncadeada &teste) {
 
     teste.insertInTheEnd(9);
 
-    teste.print(); // 1, 2, 9
+    // teste.print(); // 1, 2, 9
 
     int x;
     x = teste.getItem(1); // 1
-    cout << x << endl;
+    // cout << x << endl;
     x = teste.getItem(2); // 2
-    cout << x << endl;
+    // cout << x << endl;
     x = teste.getItem(3); // 9
-    cout << x << endl;
+    // cout << x << endl;
 
     teste.setItem(8, 1);
 
-    teste.print(); // 8, 2, 9
+    // teste.print(); // 8, 2, 9
 
     x = teste.getItem(1); // 8
-    cout << x << endl;
+    // cout << x << endl;
 
     teste.insertAtPosition(7, 1);
 
@@ -41,21 +41,23 @@ void testListaEncadeada(listaEncadeada &teste) {
     x = teste.getItem(1); // 7
     cout << x << endl;
 
-    // teste.removeFirstOne();
+    teste.removeFirstOne();
 
-    // teste.removeLastOne();
+    teste.print(); // 8, 2, 9
 
-    // teste.print(); // 8
+    teste.removeLastOne();
 
-    // teste.insertInTheEnd(2);
+    teste.print(); // 8, 2
 
-    // teste.insertInTheBeginning(1);
+    teste.insertInTheEnd(3);
 
-    // teste.print(); // 1, 8, 2
+    teste.insertInTheBeginning(1);
 
-    // teste.removePosition(1);
+    teste.print(); // 1, 8, 2, 3
 
-    // teste.print(); // 1, 2
+    teste.removePosition(1); // 1
+
+    teste.print(); // 8, 2, 3
 
 }
 
