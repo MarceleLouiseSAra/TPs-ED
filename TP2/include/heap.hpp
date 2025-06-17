@@ -9,6 +9,7 @@ class heap {
     private:
 
         listaEncadeada Heap; // maxHeap
+
         void swap(int i, int j);
         bool existeAncestral(int i);
         bool existeSucessorEsq(int i);

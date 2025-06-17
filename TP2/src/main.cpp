@@ -4,6 +4,7 @@
 #include "grafo.hpp"
 #include "heap.hpp"
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <time.h>
 
@@ -79,7 +80,7 @@ void testGrafo(grafo &teste){
 
     teste.adicionarAresta(2, 0);
     teste.adicionarAresta(5, 0);
-    // Vértice 0 tem 3 vizinhos: 2 e 5
+    // Vértice 0 tem 2 vizinhos: 2 e 5
 
     teste.adicionarAresta(2, 1);
     teste.adicionarAresta(4, 1);
@@ -113,23 +114,184 @@ void testaHeap(heap &teste) {
     teste.printHeap();
 }
 
+typedef struct pacote {
+
+    int tempochegada;
+    int idpac;
+    int armazeminicial;
+    int armazemfinal;
+} pacote;
+
 int main () {
 
-    listaEncadeada listaEncadeada;
+    // listaEncadeada listaEncadeada;
 
     // testListaEncadeada(listaEncadeada);
 
-    pilhaEncadeada pilhaEncadeada;
+    // pilhaEncadeada pilhaEncadeada1;
 
-    // testPilhaEncadeada(pilhaEncadeada);
+    // testPilhaEncadeada(pilhaEncadeada1);
 
-    grafo grafo(6); // Grafo com 6 vértices
+    // grafo grafo1(6); // Grafo com 6 vértices
 
-    // testGrafo(grafo);
+    // testGrafo(grafo1);
 
-    heap heap;
+    // heap heap;
 
-    testaHeap(heap);
+    // testaHeap(heap);
+
+    string arq;
+    cin >> arq;
+
+    ifstream in(arq, fstream::in);
+    if (!in.is_open()){
+        return 1;
+    }
+
+    string aux;
+
+    getline(in, aux, '\n');
+    int capacidadeDeTransporte = stoi(aux);
+
+    // cout << capacidadeDeTransporte << endl;
+
+    getline(in, aux, '\n');
+    int latenciaTransporte = stoi(aux);
+
+    // cout << latenciaTransporte << endl;
+
+    getline(in, aux, '\n');
+    int intervaloTransporte = stoi(aux);
+
+    // cout << intervaloTransporte << endl;
+
+    getline(in, aux, '\n');
+    int custoRemocao = stoi(aux);
+
+    // cout << custoRemocao << endl;
+    
+    getline(in, aux, '\n');
+    int numeroArmazens = stoi(aux);
+
+    // cout << numeroArmazens << endl;
+
+    grafo grafo(numeroArmazens);
+
+    int numeroSecoes = 0;
+
+    for (int i = 0; i < numeroArmazens; i++) {
+
+        getline(in, aux, '\n');
+
+        // cout << aux << endl;
+
+        int j = -1;
+
+        for (int k = 0; k < aux.size(); k++) {
+
+            if (aux[k] != ' ') {
+                j++;
+            }
+            
+            if (aux[k] == '1') {
+                
+                // cout << "i: " << i << " j: " << j << endl;
+                
+                grafo.adicionarAresta(i, j);
+                numeroSecoes++;
+            }
+        }
+    }
+
+    grafo.imprimeGrafo();
+
+    getline(in, aux, '\n');
+    int numeroPacotes = stoi(aux);
+
+    // cout << numeroPacotes << endl;
+
+    int tempochegada_n = 0;
+    int idpac_n = 0;
+    int armazeminicial_n = 0;
+    int armazemfinal_n = 0;
+
+    Vetor<pacote> pacotes(numeroPacotes);
+
+    while(getline(in, aux, '\n')) {
+
+        // cout << aux << endl;
+
+        string dump;
+
+        stringstream ss(aux);
+
+        ss >> tempochegada_n;
+        ss >> dump;
+        ss >> idpac_n;
+        ss >> dump;
+        ss >> armazeminicial_n;
+        ss >> dump;
+        ss >> armazemfinal_n;
+        ss >> dump;
+        
+        // cout << tempochegada_n << endl;
+        // cout << idpac_n << endl;
+        // cout << armazeminicial_n << endl;
+        // cout << armazemfinal_n << endl;
+
+        pacote pacoteAuxiliar;
+
+        pacoteAuxiliar.tempochegada = tempochegada_n;
+        pacoteAuxiliar.idpac = idpac_n;
+        pacoteAuxiliar.armazeminicial = armazeminicial_n;
+        pacoteAuxiliar.armazemfinal = armazemfinal_n;
+
+        pacotes.AdicionaElemento(pacoteAuxiliar);
+        
+    }
+
+    // pacote pacaux = pacotes.GetElemento(2);
+
+    // cout << pacaux.idpac << endl;
+
+    cout << numeroSecoes << endl;
+
+    Vetor<pilhaEncadeada> secoes(numeroSecoes);
+
+    for (int i = 0; i < numeroArmazens; i++) {
+        for (int j = 0; j < numeroArmazens; j++) {
+
+            pilhaEncadeada aux;
+
+            if (grafo.verificaAresta(i, j)) {
+                aux.armazem = i;
+                aux.secao = j;
+                secoes.AdicionaElemento(aux);
+            }
+
+        }
+    }
+
+    for (int i = 0; i < numeroSecoes; i++) {
+        
+        for (int j = 0; j < numeroPacotes; j++) {
+
+            if (pacotes.GetElemento(j).armazeminicial == secoes.GetElemento(i).secao) {
+                secoes.GetElemento(i).empilha(pacotes.GetElemento(j).idpac);
+            }
+        }
+
+    }
+
+    for (int i = 0; i < numeroSecoes; i++) {
+        cout << "pilha: " << i << endl;
+        cout << "armazem da pilha: " << i << ": " << secoes.GetElemento(i).armazem<< endl;
+        cout << "secao da pilha " << i << ": " << secoes.GetElemento(i).secao << endl;
+
+        secoes.GetElemento(i).imprime();
+
+        cout << endl;
+    }
 
     return 0;
 }

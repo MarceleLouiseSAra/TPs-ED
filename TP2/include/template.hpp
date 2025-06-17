@@ -35,12 +35,12 @@ class Vetor {
         }
     }
 
-    T GetElemento(int i){
+    T& GetElemento(int i){
         if(i < this->n){
             return this->p[i];
         }
 
-        return 0;
+        return this->p[0];
     }
 
     void AdicionaElemento(T x){
@@ -48,6 +48,8 @@ class Vetor {
             this->p[i] = x;
             this->i++;
         }
+
+        // cout << "pacote adicionado" << endl;
     }
 
     void removeUltimoElemento() {

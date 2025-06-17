@@ -8,23 +8,29 @@ pilhaEncadeada::pilhaEncadeada() {
     this->top = nullptr;
 };
 
+pilhaEncadeada::pilhaEncadeada(int armazem, int secao) {
+    this->armazem = armazem;
+    this->secao = secao;
+}
+
 pilhaEncadeada::~pilhaEncadeada() {
     this->limpa();
 };
 
 bool pilhaEncadeada::isEmpty() {
-    return (top == NULL); // se o ponteiro para node "top" apontar para NULL, retorna true
+    return (this->top == NULL); // se o ponteiro para node "top" apontar para NULL, retorna true
 }
 
 void pilhaEncadeada::empilha(int item) {
+    
     node* newNode;
-
+    
     newNode = new node;
-
+    
     (*newNode).item = item;
     (*newNode).next = top;
     this->top = newNode;
-
+    
     this->tam++;
 };
 

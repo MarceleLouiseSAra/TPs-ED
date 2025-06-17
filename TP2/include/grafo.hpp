@@ -1,6 +1,7 @@
 #ifndef grafo_H
 #define grafo_H
 #include "template.hpp"
+#include "pilhaEncadeada.hpp"
 #include <string>
 
 class grafo {

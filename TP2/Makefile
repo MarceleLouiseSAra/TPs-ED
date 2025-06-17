@@ -17,7 +17,7 @@ $(OBJ_DIR)/listaEncadeada.o: $(INCLUDE_DIR)/node.hpp $(INCLUDE_DIR)/listaEncadea
 $(OBJ_DIR)/pilhaEncadeada.o: $(INCLUDE_DIR)/node.hpp $(INCLUDE_DIR)/pilhaEncadeada.hpp $(SRC_DIR)/pilhaEncadeada.cpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/pilhaEncadeada.cpp -I$(INCLUDE_DIR) -o $@
 
-$(OBJ_DIR)/grafo.o:  $(INCLUDE_DIR)/template.hpp $(INCLUDE_DIR)/grafo.hpp $(SRC_DIR)/grafo.cpp
+$(OBJ_DIR)/grafo.o:  $(INCLUDE_DIR)/template.hpp $(INCLUDE_DIR)/pilhaEncadeada.hpp $(INCLUDE_DIR)/grafo.hpp $(SRC_DIR)/grafo.cpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/grafo.cpp -I$(INCLUDE_DIR) -o $@
 
 $(OBJ_DIR)/heap.o: $(INCLUDE_DIR)/node.hpp $(INCLUDE_DIR)/heap.hpp $(SRC_DIR)/heap.cpp

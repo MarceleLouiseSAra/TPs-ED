@@ -7,9 +7,13 @@ class pilhaEncadeada {
     private:
         int tam;
         node* top;
-
+        
     public:
+        int armazem;
+        int secao;
+        
         pilhaEncadeada();
+        pilhaEncadeada(int armazem, int secao);
         virtual ~pilhaEncadeada();
         bool isEmpty();
 

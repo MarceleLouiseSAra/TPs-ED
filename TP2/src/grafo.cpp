@@ -1,5 +1,6 @@
 #include "grafo.hpp"
 #include "template.hpp"
+#include "pilhaEncadeada.hpp"
 #include <iostream>
 #include <string>
 
@@ -32,14 +33,6 @@ void grafo::adicionarAresta(int u, int v) {
 
     this->adjLista.SetElemento(v, aux);
 
-    aux = this->adjLista.GetElemento(u);
-
-    aux.n++;
-
-    aux.AdicionaElemento(v);
-
-    this->adjLista.SetElemento(u, aux);
-
 }
 
 void grafo::removerAresta(int u, int v) {
@@ -47,14 +40,28 @@ void grafo::removerAresta(int u, int v) {
 }
 
 bool grafo::verificaAresta(int u, int v) {
-    return false;
+
+    if (u >= 0 && u < numVertices && v >= 0 && v < numVertices) {
+
+        Vetor<int> aux = this->adjLista.GetElemento(u);
+
+        for (int i = 0; i < adjLista.n; i++) {
+            
+            if (aux.GetElemento(i) == v) {
+                // cout << "A aresta " << u << " e " << v << " existe!" << endl;
+                return true;
+            }
+        }
+
+        return false; // 'v' não foi encontrado na lista de adjacência de 'u'
+    }
 }
 
 void grafo::imprimeGrafo() {
 
     Vetor<int> aux;
 
-    for (int i = 0; i < numVertices; ++i) {
+    for (int i = 0; i < numVertices; i++) {
         aux = this->adjLista.GetElemento(i);
         aux.Imprime();
     }

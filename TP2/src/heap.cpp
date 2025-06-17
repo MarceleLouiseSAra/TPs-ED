@@ -10,7 +10,7 @@ void heap::swap (int i, int j) {
     int aux = Heap.getItem(i);
     Heap.setItem(Heap.getItem(j), i);
     Heap.setItem(aux, j);
-    
+
 }
 
 bool heap::isEmpty() {
@@ -22,10 +22,10 @@ heap::heap() {}
 
 int heap::getAncestralIndex (int i) {
     
-    // return (i-1)/2;
+    // return (i-1)/2; // 0-based
 
     if (i <= 1) return 0;
-    return i / 2;
+    return i / 2; // 1-based
 }
 
 int heap::getSucessorEsqIndex (int i) {
