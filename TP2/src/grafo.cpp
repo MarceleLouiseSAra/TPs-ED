@@ -51,12 +51,11 @@ void grafo::buscaEmLargura(int origem, int destino, listaEncadeada &rota) {
 
     bool destinoEncontrado = false;
 
-    int i = 1;
-
     while (!destinoEncontrado) {
 
         // cout << "rota.size(): " << rota.size() << endl;
-        int u = aux.getItem(i); // pega o primeiro armázem (armázem de origem)
+        int u = aux.getItem(1); // pega o primeiro armázem (armázem de origem)
+        aux.removeFirstOne();
 
         // cout << "rota.size(): " << rota.size() << endl;
 
@@ -86,7 +85,7 @@ void grafo::buscaEmLargura(int origem, int destino, listaEncadeada &rota) {
             }
         }
 
-        i++;
+        // i++;
     }
 
     // cout << "aux: ";
@@ -98,6 +97,9 @@ void grafo::buscaEmLargura(int origem, int destino, listaEncadeada &rota) {
     listaEncadeada caminhoTemp; // Uma lista temporária para construir o caminho invertido
 
     if (destinoEncontrado) {
+        
+        // cout << "entrei do id de caminhoTemp" << endl;
+
         int atual = destino;
 
         // Percorre de volta do destino para a origem usando o array antecessor
@@ -106,9 +108,17 @@ void grafo::buscaEmLargura(int origem, int destino, listaEncadeada &rota) {
             atual = antecessor.GetElemento(atual);
         }
 
+        // cout << "caminhoTemp.size(): ";
+        // cout << caminhoTemp.size() << endl;
+
+        // cout << "caminhoTemp: " << endl;
+        // caminhoTemp.print();
+
         for (int i = 1; i <= caminhoTemp.size(); ++i) {
             rota.insertInTheEnd(caminhoTemp.getItem(i));
         }
+
+        // cout << "saí do id de caminhoTemp" << endl;
 
     }
 

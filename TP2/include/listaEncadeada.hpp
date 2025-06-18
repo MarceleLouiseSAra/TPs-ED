@@ -15,6 +15,8 @@ class listaEncadeada {
     
         listaEncadeada();
         ~listaEncadeada();
+        listaEncadeada(const listaEncadeada& other);
+        listaEncadeada& operator=(const listaEncadeada& other);
 
         int size();
         int getItem(int pos);

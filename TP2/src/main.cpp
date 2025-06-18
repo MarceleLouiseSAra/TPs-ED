@@ -292,9 +292,11 @@ int main () {
         cout << "rota deste pacote: ";
 
         pacotes.GetElemento(j).rota.print();
+
+        cout << endl;
     }
 
-    // for (int i = 0, k = 0; i < numeroPacotcd ..es, k < numeroSecoes; i++) {
+    // for (int i = 0, k = 0; i < numeroPacotes, k < numeroSecoes; i++) {
     //     for (int j = 2; j < pacotes.GetElemento(i).rota.size(); j++) {
 
     //         pacotes.GetElemento(i).rota.getItem(j); // retorna o próximo armazem a ser acessado

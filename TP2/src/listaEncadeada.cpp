@@ -10,7 +10,44 @@ listaEncadeada::listaEncadeada() {
     this->lastOne = this->firstOne;
 };
 
+listaEncadeada::listaEncadeada(const listaEncadeada& other) {
+    // Inicializa a nova lista como vazia
+    this->firstOne = new node(); // Cria um novo nó sentinela
+    this->firstOne->item = 0; // Se firstOne armazena um valor irrelevante (sentinela)
+    this->firstOne->next = NULL;
+    this->lastOne = this->firstOne;
+    this->tam = 0;
+
+    // Percorre a lista 'other' e copia cada elemento para 'this'
+    node* currentOther = other.firstOne->next; // Começa do primeiro nó de dados da outra lista
+    while (currentOther != NULL) {
+        this->insertInTheEnd(currentOther->item); // Usa seu método existente para adicionar elementos
+        currentOther = currentOther->next;
+    }
+}
+
+listaEncadeada& listaEncadeada::operator=(const listaEncadeada& other) {
+    // 1. Lidar com autoatribuição (a = a)
+    if (this == &other) {
+        return *this;
+    }
+
+    // 2. Liberar recursos antigos da lista atual
+    this->clean(); // Reutiliza seu método clean para liberar os nós existentes
+    // Se clean() não deleta 'firstOne', então 'firstOne' ainda está válido, mas aponta para NULL
+
+    // 3. Copiar os elementos da lista 'other' (cópia profunda)
+    node* currentOther = other.firstOne->next; // Começa do primeiro nó de dados da outra lista
+    while (currentOther != NULL) {
+        this->insertInTheEnd(currentOther->item); // Usa seu método existente para adicionar elementos
+        currentOther = currentOther->next;
+    }
+
+    return *this;
+}
+
 listaEncadeada::~listaEncadeada() {
+
     this->clean();
     delete this->firstOne;
 

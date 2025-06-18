@@ -70,7 +70,6 @@ class Vetor {
         cout << "\n";
     }
 
-
 };
 
 #endif
