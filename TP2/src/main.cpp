@@ -120,6 +120,8 @@ typedef struct pacote {
     int idpac;
     int armazeminicial;
     int armazemfinal;
+    listaEncadeada rota;
+
 } pacote;
 
 int main () {
@@ -254,16 +256,16 @@ int main () {
 
     // cout << pacaux.idpac << endl;
 
-    cout << numeroSecoes << endl;
+    // cout << numeroSecoes << endl;
 
     Vetor<pilhaEncadeada> secoes(numeroSecoes);
 
     for (int i = 0; i < numeroArmazens; i++) {
         for (int j = 0; j < numeroArmazens; j++) {
 
-            pilhaEncadeada aux;
-
             if (grafo.verificaAresta(i, j)) {
+                
+                pilhaEncadeada aux;
                 aux.armazem = i;
                 aux.secao = j;
                 secoes.AdicionaElemento(aux);
@@ -272,26 +274,47 @@ int main () {
         }
     }
 
-    for (int i = 0; i < numeroSecoes; i++) {
+    
+    for (int j = 0; j < numeroPacotes; j++) { // atribui rota a cada pacote
         
-        for (int j = 0; j < numeroPacotes; j++) {
+        cout << "pacotes.GetElemento(j).idpac: " << pacotes.GetElemento(j).idpac << endl;
 
-            if (pacotes.GetElemento(j).armazeminicial == secoes.GetElemento(i).secao) {
-                secoes.GetElemento(i).empilha(pacotes.GetElemento(j).idpac);
-            }
-        }
+        cout << "pacotes.GetElemento(j).armazeminicial: " << pacotes.GetElemento(j).armazeminicial << endl;
 
+        cout << "pacotes.GetElemento(j).armazemfinal: " << pacotes.GetElemento(j).armazemfinal << endl;
+
+        grafo.buscaEmLargura(pacotes.GetElemento(j).armazeminicial, 
+                             pacotes.GetElemento(j).armazemfinal,
+                             pacotes.GetElemento(j).rota);
+
+        cout << "pacotes.GetElemento(j).rota.size(): " << pacotes.GetElemento(j).rota.size() << endl;
+
+        cout << "rota deste pacote: ";
+
+        pacotes.GetElemento(j).rota.print();
     }
 
-    for (int i = 0; i < numeroSecoes; i++) {
-        cout << "pilha: " << i << endl;
-        cout << "armazem da pilha: " << i << ": " << secoes.GetElemento(i).armazem<< endl;
-        cout << "secao da pilha " << i << ": " << secoes.GetElemento(i).secao << endl;
+    // for (int i = 0, k = 0; i < numeroPacotcd ..es, k < numeroSecoes; i++) {
+    //     for (int j = 2; j < pacotes.GetElemento(i).rota.size(); j++) {
 
-        secoes.GetElemento(i).imprime();
+    //         pacotes.GetElemento(i).rota.getItem(j); // retorna o próximo armazem a ser acessado
 
-        cout << endl;
-    }
+    //         if (pacotes.GetElemento(i).rota.getItem(j) == secoes.GetElemento(k).secao) {
+    //             secoes.GetElemento(k).empilha(pacotes.GetElemento(i).idpac);
+    //         }
+    //     }
+
+    // }
+
+    // for (int i = 0; i < numeroSecoes; i++) {
+    //     cout << "pilha: " << i << endl;
+    //     cout << "armazem da pilha: " << i << ": " << secoes.GetElemento(i).armazem<< endl;
+    //     cout << "secao da pilha " << i << ": " << secoes.GetElemento(i).secao << endl;
+
+    //     secoes.GetElemento(i).imprime();
+
+    //     cout << endl;
+    // }
 
     return 0;
 }

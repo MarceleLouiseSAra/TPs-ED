@@ -2,6 +2,7 @@
 #define grafo_H
 #include "template.hpp"
 #include "pilhaEncadeada.hpp"
+#include "listaEncadeada.hpp"
 #include <string>
 
 class grafo {
@@ -14,6 +15,7 @@ class grafo {
         grafo(int v);
         ~grafo();
 
+        void buscaEmLargura(int origem, int destino, listaEncadeada &rota);
         void adicionarAresta(int u, int v);
         void removerAresta(int u, int v);
         bool verificaAresta(int u, int v);

@@ -43,7 +43,7 @@ class Vetor {
         return this->p[0];
     }
 
-    void AdicionaElemento(T x){
+    void AdicionaElemento(T &x){
         if(this->i < n){
             this->p[i] = x;
             this->i++;

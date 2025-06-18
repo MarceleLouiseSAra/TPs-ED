@@ -161,9 +161,13 @@ int listaEncadeada::removePosition(int pos) {
     int aux;
     node *p, *q;
 
+    // cout << "antes de throw" << endl;
+
     if (this->tam == 0) {
         throw "ERROR: Lista vazia!";
     }
+
+    // cout << "depois de throw" << endl;
 
     p = position(pos, true);
 

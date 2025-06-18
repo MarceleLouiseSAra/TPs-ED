@@ -1,6 +1,7 @@
 #include "grafo.hpp"
 #include "template.hpp"
 #include "pilhaEncadeada.hpp"
+#include "listaEncadeada.hpp"
 #include <iostream>
 #include <string>
 
@@ -19,6 +20,106 @@ grafo::grafo(int v) {
 
 grafo::~grafo() {
     this->limpa();
+}
+
+void grafo::buscaEmLargura(int origem, int destino, listaEncadeada &rota) {
+
+    // cout << "entrei em busca" << endl;
+
+    if (origem < 0 || origem >= numVertices ||
+        destino < 0 || destino >= numVertices) {
+
+        return;
+    }
+
+    Vetor<bool> visitado(numVertices);
+    for (int i = 0; i < numVertices; ++i) {
+        visitado.SetElemento(i, false);
+    }
+
+    Vetor<int> antecessor(numVertices);
+    for (int i = 0; i < numVertices; ++i) {
+        antecessor.SetElemento(i, -1);
+    }
+
+    listaEncadeada aux;
+
+    visitado.SetElemento(origem, true);
+    aux.insertInTheEnd(origem);
+
+    // cout << "rota.size(): " << rota.size() << endl;
+
+    bool destinoEncontrado = false;
+
+    int i = 1;
+
+    while (!destinoEncontrado) {
+
+        // cout << "rota.size(): " << rota.size() << endl;
+        int u = aux.getItem(i); // pega o primeiro armázem (armázem de origem)
+
+        // cout << "rota.size(): " << rota.size() << endl;
+
+        // cout << "u: " << u << endl;
+
+        if (u == destino) {
+            destinoEncontrado = true;
+            break;
+        }
+
+        // cout << "adjLista.GetElemento(u).n: " << adjLista.GetElemento(u).n << endl;
+
+        Vetor<int> vizinhosDeU = adjLista.GetElemento(u);
+
+        for (int j = 0; j < vizinhosDeU.n; j++) {
+
+            int v = vizinhosDeU.GetElemento(j);
+
+            // cout << "v: " << v << endl;
+
+            // cout << "visitado.GetElemento(v): " << visitado.GetElemento(v) << endl;
+
+            if (!visitado.GetElemento(v)) {
+                visitado.SetElemento(v, true);
+                antecessor.SetElemento(v, u);
+                aux.insertInTheEnd(v);
+            }
+        }
+
+        i++;
+    }
+
+    // cout << "aux: ";
+    // aux.print();
+
+    // cout << "antecessor: ";
+    // antecessor.Imprime();
+
+    listaEncadeada caminhoTemp; // Uma lista temporária para construir o caminho invertido
+
+    if (destinoEncontrado) {
+        int atual = destino;
+
+        // Percorre de volta do destino para a origem usando o array antecessor
+        while (atual != -1) {
+            caminhoTemp.insertInTheBeginning(atual); // Insere no início para obter a ordem correta
+            atual = antecessor.GetElemento(atual);
+        }
+
+        for (int i = 1; i <= caminhoTemp.size(); ++i) {
+            rota.insertInTheEnd(caminhoTemp.getItem(i));
+        }
+
+    }
+
+    // cout << "caminhoTemp: " << endl;
+    // caminhoTemp.print();
+
+    // cout << "rota: " << endl;
+    // rota.print();
+
+    // cout << "sai de busca" << endl;
+
 }
 
 void grafo::adicionarAresta(int u, int v) {
