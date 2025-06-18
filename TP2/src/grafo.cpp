@@ -54,7 +54,7 @@ void grafo::buscaEmLargura(int origem, int destino, listaEncadeada &rota) {
     while (!destinoEncontrado) {
 
         // cout << "rota.size(): " << rota.size() << endl;
-        int u = aux.getItem(1); // pega o primeiro armázem (armázem de origem)
+        int u = aux.getItem(1); // pega o primeiro armazém (armazém de origem)
         aux.removeFirstOne();
 
         // cout << "rota.size(): " << rota.size() << endl;

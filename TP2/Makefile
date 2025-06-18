@@ -26,12 +26,18 @@ $(OBJ_DIR)/heap.o: $(INCLUDE_DIR)/node.hpp $(INCLUDE_DIR)/heap.hpp $(SRC_DIR)/he
 $(OBJ_DIR)/main.o: $(INCLUDE_DIR)/template.hpp $(INCLUDE_DIR)/node.hpp $(INCLUDE_DIR)/listaEncadeada.hpp $(INCLUDE_DIR)/pilhaEncadeada.hpp $(INCLUDE_DIR)/grafo.hpp $(INCLUDE_DIR)/heap.hpp $(SRC_DIR)/main.cpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -I$(INCLUDE_DIR) -o $@
 
-vpl_execution: $(OBJ_DIR)/node.o $(OBJ_DIR)/listaEncadeada.o $(OBJ_DIR)/pilhaEncadeada.o $(OBJ_DIR)/grafo.o $(OBJ_DIR)/heap.o $(OBJ_DIR)/main.o
+$(OBJ_DIR)/teste.o: $(INCLUDE_DIR)/template.hpp $(INCLUDE_DIR)/node.hpp $(INCLUDE_DIR)/listaEncadeada.hpp $(INCLUDE_DIR)/pilhaEncadeada.hpp $(INCLUDE_DIR)/grafo.hpp $(INCLUDE_DIR)/heap.hpp $(SRC_DIR)/main.cpp
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -I$(INCLUDE_DIR) -o $@
+
+teste: $(OBJ_DIR)/node.o $(OBJ_DIR)/listaEncadeada.o $(OBJ_DIR)/pilhaEncadeada.o $(OBJ_DIR)/grafo.o $(OBJ_DIR)/heap.o $(OBJ_DIR)/teste.o
 	$(CC) $(CFLAGS) $^ -o $(BIN_DIR)/$@
 
-all: vpl_execution
+tp2.out: $(OBJ_DIR)/node.o $(OBJ_DIR)/listaEncadeada.o $(OBJ_DIR)/pilhaEncadeada.o $(OBJ_DIR)/grafo.o $(OBJ_DIR)/heap.o $(OBJ_DIR)/main.o
+	$(CC) $(CFLAGS) $^ -o $(BIN_DIR)/$@
+
+all: tp2.out
 
 build: vpl_execution greetings
 
-clean: $(OBJ_DIR)/node.o $(OBJ_DIR)/listaEncadeada.o $(OBJ_DIR)/pilhaEncadeada.o $(OBJ_DIR)/grafo.o $(OBJ_DIR)/heap.o $(OBJ_DIR)/main.o $(BIN_DIR)/vpl_execution
+clean: $(OBJ_DIR)/node.o $(OBJ_DIR)/listaEncadeada.o $(OBJ_DIR)/pilhaEncadeada.o $(OBJ_DIR)/grafo.o $(OBJ_DIR)/heap.o $(OBJ_DIR)/main.o $(BIN_DIR)/tp2.out
 	rm $^
