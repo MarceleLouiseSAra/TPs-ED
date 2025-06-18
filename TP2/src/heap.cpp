@@ -54,7 +54,7 @@ void heap::heapifyUp() {
 
     int indexAtual = (Heap.size()); // Index do último elemento adicionado
     
-    while (this->existeAncestral(indexAtual) && Heap.getItem(getAncestralIndex(indexAtual)) < Heap.getItem(indexAtual)) {
+    while (this->existeAncestral(indexAtual) && Heap.getItem(getAncestralIndex(indexAtual)) > Heap.getItem(indexAtual)) {
         
         swap(indexAtual, getAncestralIndex(indexAtual));
         indexAtual = getAncestralIndex(indexAtual);
@@ -68,31 +68,28 @@ void heap::heapifyUp() {
 void heap::heapifyDown () {
 
     int indexAtual = 1;
+    // enquanto o nó tiver filhos à esquerda
 
-    // enquanto o nó tiver filhos  à esquerda
+    while (getSucessorEsqIndex(indexAtual) <= Heap.size()) { // Adicionado <= Heap.size() para garantir que o filho esquerdo existe
 
-    while (getSucessorEsqIndex(indexAtual)) {
+        int filhoMenorIndex = getSucessorEsqIndex(indexAtual); // Agora busca pelo menor filho
 
-        int filhoMaiorIndex = getSucessorEsqIndex(indexAtual); // filhoMaiorIndex é o index do elemento à esquerda
+        // verifica se o filho direito existe e se é MENOR que o irmão
 
-        // verifica se o filho direito existe e se é maior que o irmão
-        if (existeSucessorDir(indexAtual) && Heap.getItem(getSucessorDirIndex(indexAtual)) > Heap.getItem(filhoMaiorIndex)) {
-
-            filhoMaiorIndex = this->getSucessorDirIndex(indexAtual);
+        if (existeSucessorDir(indexAtual) && Heap.getItem(getSucessorDirIndex(indexAtual)) < Heap.getItem(filhoMenorIndex)) {
+            filhoMenorIndex = this->getSucessorDirIndex(indexAtual);
         }
 
-        // Se o elemento atual for maior ou igual a filhoMaiorIndex, o heap está correto 
-        if (Heap.getItem(indexAtual) >= Heap.getItem(filhoMaiorIndex)) {
+        // Se o elemento atual for MENOR ou igual a filhoMenorIndex, o heap está correto
+
+        if (Heap.getItem(indexAtual) <= Heap.getItem(filhoMenorIndex)) {
 
             break;
-        } else { // caso contrário, trocam-se de lugar o elemento do index atual com o do index filhoMaiorIndex
-
-            swap(indexAtual, filhoMaiorIndex);
-            indexAtual = filhoMaiorIndex;
+        } else { // caso contrário, trocam-se de lugar o elemento do index atual com o do index filhoMenorIndex
+            swap(indexAtual, filhoMenorIndex);
+            indexAtual = filhoMenorIndex;
         }
-
     }
-
 }
 
 void heap::insert(int key) {
@@ -102,7 +99,7 @@ void heap::insert(int key) {
 }
 
 // sempre removemos a raiz
-int heap::extractMax() {
+int heap::extractMin() {
 
     if (this->isEmpty()) {
         cout << "Heap vazio!" << endl;

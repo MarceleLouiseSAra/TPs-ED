@@ -4,7 +4,7 @@
 
 class node {
     private:
-        int item;
+        long long int item;
         node *next;
 
 

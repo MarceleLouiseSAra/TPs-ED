@@ -7,6 +7,8 @@
 #include <sstream>
 #include <fstream>
 #include <time.h>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -19,6 +21,89 @@ typedef struct pacote {
     listaEncadeada rota;
 
 } pacote;
+
+typedef struct evento {
+
+    long long int chave;
+
+} evento;
+
+string criaChaveEventoPacote (int tempoChegada, int idpac) {
+    ostringstream oss;
+    oss << setw(6) << setfill('0') << tempoChegada; // tempo de chegade de pacote (6 dígitos) // como corresponde às primeiras dezenas, seta a ordem no escalonamento
+    oss << setw(6) << setfill('0') << idpac; // id do pacote (6 dígitos)
+    oss << "1"; // Tipo de Evento: Pacote
+    return oss.str();
+}
+
+void escalonaEventoPacote (int numeroPacotes, Vetor<pacote> &pacotes, grafo &grafo, heap &minHeap) {
+
+    for (int j = 0; j < numeroPacotes; j++) { // atribui rota a cada pacote
+
+        grafo.buscaEmLargura(pacotes.GetElemento(j).armazeminicial, 
+                             pacotes.GetElemento(j).armazemfinal,
+                             pacotes.GetElemento(j).rota);
+
+                             // cout << "pacotes.GetElemento(j).rota.size(): " << pacotes.GetElemento(j).rota.size() << endl;
+
+        cout << "rota do pacote " << j << ": ";
+
+        pacotes.GetElemento(j).rota.print();
+
+        // cout << stoi(criaChaveEventoPacote(pacotes.GetElemento(j).tempochegada, pacotes.GetElemento(j).idpac)) << endl; // chave do evento de armazenamento
+
+        // Escalona a chegada de pacotes nos armazéns de postagem // !!!!
+        minHeap.insert(stoi(criaChaveEventoPacote(pacotes.GetElemento(j).tempochegada, pacotes.GetElemento(j).idpac)));
+
+        cout << endl;
+    }
+
+}
+
+string atualizaRelogio (int tempo) {
+    ostringstream oss;
+    oss << std::setw(7) << std::setfill('0') << tempo;
+    return oss.str();
+}
+
+string criaChaveEventoTransporte (int tempo, int armazemInicial, int armazemFinal) {
+    ostringstream oss;
+    oss << setw(6) << setfill('0') << tempo; // tempo de início do transporte n (6 dígitos) // como corresponde às primeiras dezenas, seta a ordem no escalonamento
+    oss << setw(3) << setfill('0') << armazemInicial; // armazém de origem (3 dígitos)
+    oss << setw(3) << setfill('0') << armazemFinal; // armazém de destino (3 dígitos)
+    oss << "2"; // Tipo de Evento: Transporte
+    return oss.str();
+}
+
+void escalonaEventoTransporte (int numeroPacotes, Vetor<pacote> &pacotes, grafo &grafo, int tempoAtual, int intervaloTransporte) {
+
+    // Para cada ligação entre dois armazéns // verificaAresta
+    for (int j = 0; j < numeroPacotes; j++) {
+
+        // tempoAtual = tempo de chegada do primeiro pacote
+        tempoAtual = pacotes.GetElemento(0).tempochegada;
+
+        for (int i = 2; i <= pacotes.GetElemento(j).rota.size(); i++ ) {
+
+            if (grafo.verificaAresta(pacotes.GetElemento(j).rota.getItem(i-1), pacotes.GetElemento(j).rota.getItem(i))) {
+
+                // cout << "entrei no if" << endl;
+
+                // Escalona evento de transporte // !!!!!! não necessariamente passa por todas as arestas, só por aquelas das rotas
+                // n pacotes são removidos de uma mesma seção de um mesmo armazém sequencialmente (98, 101)
+
+                //latenciaTransporte (tempo transporte [20]) (soma 20 ao clock)
+                tempoAtual += intervaloTransporte;
+
+                cout << "tempo em que o pacote " << j << " sai no armazém " << pacotes.GetElemento(j).rota.getItem(i-1) << ": " << atualizaRelogio(tempoAtual) << endl;
+
+                // minHeap.insert(stoi(criaChaveEventoTransporte(stoi(atualizaRelogio(tempoAtual)), pacotes.GetElemento(j).armazeminicial, pacotes.GetElemento(j).armazemfinal)));
+
+                // intervaloTransporte (tempo entre o início de um transporte e o início de outro [110]) (soma 110 ao clock)
+            }
+        }
+    }
+}
 
 void empilhaPacote(pacote pacote, Vetor<pilhaEncadeada> &secoes) {
 
@@ -158,80 +243,88 @@ int main () {
         }
     }
 
-    
-    for (int j = 0; j < numeroPacotes; j++) { // atribui rota a cada pacote
-        
-        // cout << "pacotes.GetElemento(j).idpac: " << pacotes.GetElemento(j).idpac << endl;
-
-        // cout << "pacotes.GetElemento(j).armazeminicial: " << pacotes.GetElemento(j).armazeminicial << endl;
-
-        // cout << "pacotes.GetElemento(j).armazemfinal: " << pacotes.GetElemento(j).armazemfinal << endl;
-
-        grafo.buscaEmLargura(pacotes.GetElemento(j).armazeminicial, 
-                             pacotes.GetElemento(j).armazemfinal,
-                             pacotes.GetElemento(j).rota);
-
-        // cout << "pacotes.GetElemento(j).rota.size(): " << pacotes.GetElemento(j).rota.size() << endl;
-
-        cout << "rota do pacote " << j << ": ";
-
-        pacotes.GetElemento(j).rota.print();
-
-        cout << endl;
-    }
-
-    // empilhando
-
-    // para cada armazém para cada rota de cada pacote, empilhar o pacote na seção referente ao próximo armazém no armazém atual
-
     // simulação de eventos discretos 
 
-    // Inicializa Condição de Término para FALSO
-    // Inicializa as variáveis de estado do sistema
+    // Inicializa as variáveis de estado do sistema // leitura da entrada, criação dos vetores auxiliares de pacotes e secoes
+
+    heap minHeap;
+    
     // Inicializa o Relógio (usualmente zero)
-    // Para cada ligação entre dois armazéns
-        // Escalona evento de transporte
+    int tempoAtual = 0;
+    
     // Para cada pacote a ser transportado
         // Calcula e armazena a rota do pacote
-        // Escalona a chegada de pacotes nos armazéns de postagem
-    // Enquanto houver eventos ou seções não vazias
-        // Remove o próximo evento do escalonador
+
+    escalonaEventoPacote(numeroPacotes, pacotes, grafo, minHeap);
+
+    // Escalona evento de transporte    
+    escalonaEventoTransporte (numeroPacotes, pacotes, grafo, tempoAtual, intervaloTransporte);
+
+    // minHeap.printHeap();
+
+    // Inicializa Condição de Término para FALSO
+    bool fimEventos = false;
+
+    // Enquanto houver eventos ou seções não vazias // !!!!!!!!!!!!
+    // while(fimEventos) {
+
+    //     // Remove o próximo evento do escalonador
+    //     int chaveProxEvento = minHeap.extractMin(); // extrai a raiz (evento há mais tempo no escalonador [chave do evento])
+
+    //     if (chaveProxEvento == 0) { // "Heap está vazio!"
+    //         fimEventos = true; // break while
+    //     }
+
         // Avança o relógio para o instante do próximo evento
+        // clock = atualizaRelogio(0);
+
         // Se evento é transporte
+
             // Se há pacotes na seção associada
-                // Remove os pacotes mais antigos até a capacidade do transporte
+                // Remove os pacotes mais antigos até a capacidade do transporte // 2
                 // Escalona a chegada dos pacotes removidos no próximo armazém
             // Escalona o próximo evento de transporte
+
         // Se evento é chegada de pacotes
+
             // Se pacote chegou ao destino final
                 // Registra entrega de pacote
             // Senão chegou ao destino final
                 // Armazena o pacote na respectiva seção
+
+                // empilhando:
+                // para cada armazém para cada rota de cada pacote, empilhar o pacote na seção referente ao próximo armazém no armazém atual
+
+                // for (int i = 0, k = 0; i < numeroPacotes, k < numeroSecoes; i++) {
+                //     for (int j = 2; j < pacotes.GetElemento(i).rota.size(); j++) {
+
+                //         pacotes.GetElemento(i).rota.getItem(j); // retorna o próximo armazem a ser acessado
+
+                //         if (pacotes.GetElemento(i).rota.getItem(j) == secoes.GetElemento(k).secao) {
+                //             secoes.GetElemento(k).empilha(pacotes.GetElemento(i).idpac);
+                //         }
+                //     }
+
+                // }
+
+                // lógica do vetor auxiliar "secoes":
+                // pilhas de 0 a n, cada pilha m é uma seção de um armazém k
+
+                // for (int i = 0; i < numeroSecoes; i++) {
+                //     cout << "pilha: " << i << endl;
+                //     cout << "armazem da pilha: " << i << ": " << secoes.GetElemento(i).armazem << endl;
+                //     cout << "secao da pilha " << i << ": " << secoes.GetElemento(i).secao << endl;
+
+                //     secoes.GetElemento(i).imprime();
+
+                //     cout << endl;
+                // }
+
         // Atualizar as estatísticas
+    // }
+
     // Fim
     // Gerar relatórios de estatísticas
-
-    // for (int i = 0, k = 0; i < numeroPacotes, k < numeroSecoes; i++) {
-    //     for (int j = 2; j < pacotes.GetElemento(i).rota.size(); j++) {
-
-    //         pacotes.GetElemento(i).rota.getItem(j); // retorna o próximo armazem a ser acessado
-
-    //         if (pacotes.GetElemento(i).rota.getItem(j) == secoes.GetElemento(k).secao) {
-    //             secoes.GetElemento(k).empilha(pacotes.GetElemento(i).idpac);
-    //         }
-    //     }
-
-    // }
-
-    // for (int i = 0; i < numeroSecoes; i++) {
-    //     cout << "pilha: " << i << endl;
-    //     cout << "armazem da pilha: " << i << ": " << secoes.GetElemento(i).armazem<< endl;
-    //     cout << "secao da pilha " << i << ": " << secoes.GetElemento(i).secao << endl;
-
-    //     secoes.GetElemento(i).imprime();
-
-    //     cout << endl;
-    // }
 
     return 0;
 }

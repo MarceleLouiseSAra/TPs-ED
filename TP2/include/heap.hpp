@@ -8,7 +8,7 @@ class heap {
 
     private:
 
-        listaEncadeada Heap; // maxHeap
+        listaEncadeada Heap; // minHeap
 
         void swap(int i, int j);
         bool existeAncestral(int i);
@@ -26,7 +26,7 @@ class heap {
         bool isEmpty();
         int size();
         void insert(int key);
-        int extractMax();
+        int extractMin();
         void printHeap();
     
 };
