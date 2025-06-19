@@ -71,20 +71,25 @@ int procuraPacote(int chave, Vetor<pacote> &pacotes, int numeroPacotes) {
 
 void empilhando (int indicePacote, int numeroPacotes, int numeroSecoes, int tempoAtual, Vetor<pacote> &pacotes, Vetor<pilhaEncadeada> &secoes) {
 
-    // Certifica-se de que o pacote ainda tem uma rota para seguir
+    // Verifica de que o pacote ainda tem uma rota para seguir
     if (pacotes.GetElemento(indicePacote).rota.size() > 0) {
+
         // O armazém atual do pacote é o próximo da rota
         pacotes.GetElemento(indicePacote).armazemAtual = pacotes.GetElemento(indicePacote).rota.removeFirstOne();
 
         // Se ainda há elementos na rota após remover o primeiro, define o próximo armazém
         if (pacotes.GetElemento(indicePacote).rota.size() > 0) {
-            pacotes.GetElemento(indicePacote).proximoArmazem = pacotes.GetElemento(indicePacote).rota.getItem(0); 
+
+            pacotes.GetElemento(indicePacote).proximoArmazem = pacotes.GetElemento(indicePacote).rota.getItem(0);
+             
         } else {
-            // Se não há mais elementos na rota, o pacote chegou ao destino final
+
+            // Se a rota está vazia, o pacote chegou ao destino final
             pacotes.GetElemento(indicePacote).proximoArmazem = -1;
         }
     } else {
-        // Se a rota já está vazia, o pacote já chegou ou não tem rota
+
+        // Se a rota está vazia, o pacote já chegou ou não tem rota
         return;
     }
 
@@ -145,9 +150,7 @@ void registraEventoTransito (int indicePacote, int numeroPacotes, int tempoAtual
     proximoArmazemSS << setw(3) << setfill('0') << pacotes.GetElemento(indicePacote).proximoArmazem;
 
     cout << tempoSS.str() << " pacote " << pacoteSS.str() << " em transito de " << armazemInicialSS.str() << " para " << proximoArmazemSS.str() << endl;
-
 }
-
 
 int main () {
 
@@ -186,7 +189,7 @@ int main () {
 
         int j = -1;
 
-        for (int k = 0; k < aux.size(); k++) {
+        for (std::string::size_type k = 0; k < aux.size(); k++) {
 
             if (aux[k] != ' ') {
                 j++;
@@ -254,6 +257,8 @@ int main () {
 
     heap minHeap;
     long long int tempoAtual = 0;
+    long long int inicioSimulacao = pacotes.GetElemento(0).tempochegada;
+    long long int tempoDaSimulacao = inicioSimulacao;
 
     // Escalona os eventos de postagem iniciais
     for (int i = 0; i < numeroPacotes; i++) {
@@ -280,8 +285,15 @@ int main () {
 
         tempoAtual = chaveProxEvento/10000000;
 
+        // cout << "tempoAtual: " << tempoAtual << endl;
+        // cout << "inicioSimulacao: " << inicioSimulacao << endl;
+        // cout << "tempoDaSimulacao: " << tempoDaSimulacao << endl;
+        // cout << "intervaloTransporte: " << intervaloTransporte << endl;
+
+        long long int controle = chaveProxEvento%10;
+
         // Se evento é de transporte (remoção e trânsito)
-        if (chaveProxEvento%10 == 2) {
+        if (controle == 2) {
 
             chaveProxEvento/=10;
             int armazemDestino = chaveProxEvento % (1000); 
@@ -298,36 +310,44 @@ int main () {
                         
                         int pacote_id = secoes.GetElemento(i).desempilha();
                         int indicePacote = procuraPacote(pacote_id, pacotes, numeroPacotes);
-                        
+
                         // Registra a remoção
                         registraEventoRemocao(indicePacote, numeroPacotes, numeroSecoes, tempoAtual, pacotes);
                         
                         // Registra o trânsito
                         registraEventoTransito(indicePacote, numeroPacotes, tempoAtual, pacotes);
 
-                        // Agora, o pacote chegou ao seu destino intermediário ou final
+                        // Pacote chegou ao seu destino intermediário ou final
                         pacotes.GetElemento(indicePacote).armazemAtual = armazemDestino;
                         
-                        // Escalona a chegada para armazenamento (tipo 1) no próximo tempo para simular bloco
+                        // Escalona a chegada para armazenamento (evento tipo 1) no próximo tempo para simular bloco
                         long long int chave_chegada_para_armazenamento;
+
                         if (pacotes.GetElemento(indicePacote).armazemAtual == pacotes.GetElemento(indicePacote).armazemFinal) {
-                            // Se chegou ao destino final, o "próximo armazém" é -1, mas ainda é um evento de "chegada" para entrega
+
+                            // Se chegou ao destino final, o próximo armazém é identificado com -1 por empilhando, mas ainda é um evento de chegada
                             chave_chegada_para_armazenamento = stoll(criaChaveEventoPacote(tempoAtual + latenciaTransporte, pacote_id));
+
                         } else {
-                            // Se não, o próximo armazém é o próximo da rota
+
+                            // Caso contrrário, o próximo armazém é o próximo da rota
                             pacotes.GetElemento(indicePacote).proximoArmazem = pacotes.GetElemento(indicePacote).rota.getItem(0);
+
                             chave_chegada_para_armazenamento = stoll(criaChaveEventoPacote(tempoAtual + latenciaTransporte, pacote_id));
                         }
+
                         minHeap.insert(chave_chegada_para_armazenamento);
                         
                         pacotesTransportados++;
+
+                        tempoDaSimulacao = tempoAtual;
                     }
                 }
             }
         }
 
         // Se evento é de pacote postado ou chegada para armazenamento
-        else if (chaveProxEvento%10 == 1) {
+        else if (controle == 1) {
 
             chaveProxEvento/=10;
             int pacote_id = chaveProxEvento % (1000000); 
@@ -348,14 +368,17 @@ int main () {
                 cout << tempoSS.str() << " pacote " << indicePacoteSS.str() << " " << "entregue em " << indiceArmazemFinalSS.str() << endl;
             
             } else {
+
                 // Armazena o pacote na respectiva seção
                 empilhando(indicePacote, numeroPacotes, numeroSecoes, tempoAtual, pacotes, secoes);
 
                 // Escalona o próximo evento de transporte para este pacote
-                long long int proximoTempoTransporte = tempoAtual + intervaloTransporte;
+                long long int proximoTempoTransporte = tempoDaSimulacao + intervaloTransporte;
+
                 string chave_str = criaChaveEventoTransporte(proximoTempoTransporte, 
                                                              pacotes.GetElemento(indicePacote).armazemAtual, 
                                                              pacotes.GetElemento(indicePacote).proximoArmazem);
+                                                             
                 long long int chave_long_long = stoll(chave_str);
                 minHeap.insert(chave_long_long);
             }
