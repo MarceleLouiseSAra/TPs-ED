@@ -67,29 +67,30 @@ void heap::heapifyUp() {
 
 void heap::heapifyDown () {
 
-    int indexAtual = 1;
-    // enquanto o nó tiver filhos à esquerda
+    int index = 1; // Começa da raiz
+        int heapSize = Heap.size();
 
-    while (getSucessorEsqIndex(indexAtual) <= Heap.size()) { // Adicionado <= Heap.size() para garantir que o filho esquerdo existe
+        while (true) {
+            int leftChild = 2 * index;
+            int rightChild = 2 * index + 1;
+            int smallest = index;
 
-        int filhoMenorIndex = getSucessorEsqIndex(indexAtual); // Agora busca pelo menor filho
+            // Encontra o menor entre o pai e seus filhos
+            if (leftChild <= heapSize && Heap.getItem(leftChild) < Heap.getItem(smallest)) {
+                smallest = leftChild;
+            }
+            if (rightChild <= heapSize && Heap.getItem(rightChild) < Heap.getItem(smallest)) {
+                smallest = rightChild;
+            }
 
-        // verifica se o filho direito existe e se é MENOR que o irmão
-
-        if (existeSucessorDir(indexAtual) && Heap.getItem(getSucessorDirIndex(indexAtual)) < Heap.getItem(filhoMenorIndex)) {
-            filhoMenorIndex = this->getSucessorDirIndex(indexAtual);
+            // Se o menor não for o pai, troca e continua a descer
+            if (smallest != index) {
+                swap(index, smallest);
+                index = smallest;
+            } else {
+                break; // A propriedade do heap foi restaurada
+            }
         }
-
-        // Se o elemento atual for MENOR ou igual a filhoMenorIndex, o heap está correto
-
-        if (Heap.getItem(indexAtual) <= Heap.getItem(filhoMenorIndex)) {
-
-            break;
-        } else { // caso contrário, trocam-se de lugar o elemento do index atual com o do index filhoMenorIndex
-            swap(indexAtual, filhoMenorIndex);
-            indexAtual = filhoMenorIndex;
-        }
-    }
 }
 
 void heap::insert(int key) {
@@ -102,20 +103,26 @@ void heap::insert(int key) {
 int heap::extractMin() {
 
     if (this->isEmpty()) {
-        cout << "Heap vazio!" << endl;
-        return 0;
+            // std::cout << "Heap vazio!" << std::endl;
+            return 0; // Ou lance uma exceção apropriada
+        }
+
+    int raiz = Heap.getItem(1); // O menor elemento é a raiz (índice 1)
+
+    // Se há mais de um elemento real no heap (além da raiz que será removida)
+    if (Heap.size() > 1) {
+        // Passo 1: Mover o último elemento para a posição da raiz (índice 1)
+        swap(1, Heap.size());
+
+    Heap.removeLastOne();
+
+        heapifyDown();
+    } else {
+        Heap.removeLastOne();
     }
 
-    int raiz = Heap.getItem(0);
-
-    swap(0, (Heap.size()-1));
-
-    Heap.removeFirstOne();
-
-    heapifyDown();
-
     return raiz;
-    
+
 }
 
 void heap::printHeap() {
