@@ -84,7 +84,7 @@ node* listaEncadeada::position(int pos, bool previous) { // Melhor caso: O(1); p
 
 };
 
-int listaEncadeada::getItem(int pos) {
+long long int listaEncadeada::getItem(int pos) {
     node* p;
 
 
@@ -94,7 +94,7 @@ int listaEncadeada::getItem(int pos) {
 
 };
 
-void listaEncadeada::setItem(int item, int pos) {
+void listaEncadeada::setItem(long long int item, int pos) {
     node* p;
 
     p = this->position(pos, false);
@@ -119,7 +119,7 @@ void listaEncadeada::insertInTheBeginning(int item) {
     this->tam++;
 };
 
-void listaEncadeada::insertInTheEnd(int item) {
+void listaEncadeada::insertInTheEnd(long long int item) {
 
     node* newNode;
     newNode = new node;
@@ -131,7 +131,7 @@ void listaEncadeada::insertInTheEnd(int item) {
     this->tam++;
 };
 
-void listaEncadeada::insertAtPosition(int item, int pos) {
+void listaEncadeada::insertAtPosition(long long int item, int pos) {
 
     node* newNode;
     newNode = new node;

@@ -19,11 +19,11 @@ class listaEncadeada {
         listaEncadeada& operator=(const listaEncadeada& other);
 
         int size();
-        int getItem(int pos);
-        void setItem(int item, int pos);
+        long long int getItem(int pos);
+        void setItem(long long int item, int pos);
         void insertInTheBeginning(int item);
-        void insertInTheEnd(int item);
-        void insertAtPosition(int item, int pos);
+        void insertInTheEnd(long long int item);
+        void insertAtPosition(long long int item, int pos);
 
         int removeFirstOne();
         int removeLastOne();

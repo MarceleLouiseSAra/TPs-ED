@@ -164,8 +164,9 @@ bool grafo::verificaAresta(int u, int v) {
             }
         }
 
-        return false; // 'v' não foi encontrado na lista de adjacência de 'u'
     }
+    
+    return false; // 'v' não foi encontrado na lista de adjacência de 'u'
 }
 
 void grafo::imprimeGrafo() {

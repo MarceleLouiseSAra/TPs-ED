@@ -25,8 +25,8 @@ class heap {
         heap();
         bool isEmpty();
         int size();
-        void insert(int key);
-        int extractMin();
+        void insert(long long int key);
+        long long int extractMin();
         void printHeap();
     
 };

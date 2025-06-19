@@ -7,7 +7,7 @@ using namespace std;
 
 void heap::swap (int i, int j) {
 
-    int aux = Heap.getItem(i);
+    long long int aux = Heap.getItem(i);
     Heap.setItem(Heap.getItem(j), i);
     Heap.setItem(aux, j);
 
@@ -93,21 +93,21 @@ void heap::heapifyDown () {
         }
 }
 
-void heap::insert(int key) {
+void heap::insert(long long int key) {
 
     Heap.insertInTheEnd(key);
     this->heapifyUp();
 }
 
 // sempre removemos a raiz
-int heap::extractMin() {
+long long int heap::extractMin() {
 
     if (this->isEmpty()) {
-            // std::cout << "Heap vazio!" << std::endl;
+            // cout << "Heap vazio!" << endl;
             return 0; // Ou lance uma exceção apropriada
         }
 
-    int raiz = Heap.getItem(1); // O menor elemento é a raiz (índice 1)
+    long long int raiz = Heap.getItem(1); // O menor elemento é a raiz (índice 1)
 
     // Se há mais de um elemento real no heap (além da raiz que será removida)
     if (Heap.size() > 1) {
