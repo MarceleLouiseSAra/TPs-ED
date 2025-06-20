@@ -14,6 +14,7 @@ class pilhaEncadeada {
         
         pilhaEncadeada();
         pilhaEncadeada(int armazem, int secao);
+        int size();
         virtual ~pilhaEncadeada();
         bool isEmpty();
 

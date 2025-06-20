@@ -69,7 +69,7 @@ int procuraPacote(int chave, Vetor<pacote> &pacotes, int numeroPacotes) {
     return -1;
 }
 
-void empilhando (int indicePacote, int numeroPacotes, int numeroSecoes, int tempoAtual, Vetor<pacote> &pacotes, Vetor<pilhaEncadeada> &secoes) {
+void empilhando (int indicePacote, int numeroPacotes, int numeroSecoes, long long int tempoAtual, Vetor<pacote> &pacotes, Vetor<pilhaEncadeada> &secoes) {
 
     // Verifica de que o pacote ainda tem uma rota para seguir
     if (pacotes.GetElemento(indicePacote).rota.size() > 0) {
@@ -94,7 +94,8 @@ void empilhando (int indicePacote, int numeroPacotes, int numeroSecoes, int temp
     }
 
     // Procura a seção correta para empilhar o pacote
-    for (int i = 0; i < numeroSecoes; i++) {   
+    for (int i = 0; i < numeroSecoes; i++) { 
+
         if (pacotes.GetElemento(indicePacote).armazemAtual == secoes.GetElemento(i).armazem 
             && secoes.GetElemento(i).secao == pacotes.GetElemento(indicePacote).proximoArmazem) { 
 
@@ -118,7 +119,7 @@ void empilhando (int indicePacote, int numeroPacotes, int numeroSecoes, int temp
     }
 }
 
-void registraEventoRemocao (int indicePacote, int numeroPacotes, int numeroSecoes, int tempoAtual, Vetor<pacote> &pacotes) { // Removido secoes, não é usado aqui
+void registraEventoRemocao (int indicePacote, int numeroPacotes, int numeroSecoes, long long int tempoAtual, Vetor<pacote> &pacotes) { // Removido secoes, não é usado aqui
 
     ostringstream tempoSS;
     tempoSS << setw(6) << setfill('0') << atualizaRelogio(tempoAtual);
@@ -135,7 +136,7 @@ void registraEventoRemocao (int indicePacote, int numeroPacotes, int numeroSecoe
     cout << tempoSS.str() << " pacote " << pacoteSS.str() << " removido de " << armazemSS.str() << " na secao " << secaoSS.str() << endl;
 }
 
-void registraEventoTransito (int indicePacote, int numeroPacotes, int tempoAtual, Vetor<pacote> &pacotes) {
+void registraEventoTransito (int indicePacote, int numeroPacotes, long long int tempoAtual, Vetor<pacote> &pacotes) {
 
     ostringstream tempoSS;
     tempoSS << setw(6) << setfill('0') << atualizaRelogio(tempoAtual);
@@ -308,8 +309,9 @@ int main () {
                     int pacotesTransportados = 0;
                     while (!secoes.GetElemento(i).isEmpty() && pacotesTransportados < capacidadeDeTransporte) {
                         
-                        int pacote_id = secoes.GetElemento(i).desempilha();
-                        int indicePacote = procuraPacote(pacote_id, pacotes, numeroPacotes);
+                        // desempilha
+                        int pacote_idpac = secoes.GetElemento(i).desempilha();
+                        int indicePacote = procuraPacote(pacote_idpac, pacotes, numeroPacotes);
 
                         // Registra a remoção
                         registraEventoRemocao(indicePacote, numeroPacotes, numeroSecoes, tempoAtual, pacotes);
@@ -326,14 +328,14 @@ int main () {
                         if (pacotes.GetElemento(indicePacote).armazemAtual == pacotes.GetElemento(indicePacote).armazemFinal) {
 
                             // Se chegou ao destino final, o próximo armazém é identificado com -1 por empilhando, mas ainda é um evento de chegada
-                            chave_chegada_para_armazenamento = stoll(criaChaveEventoPacote(tempoAtual + latenciaTransporte, pacote_id));
+                            chave_chegada_para_armazenamento = stoll(criaChaveEventoPacote(tempoAtual + latenciaTransporte, pacote_idpac));
 
                         } else {
 
                             // Caso contrrário, o próximo armazém é o próximo da rota
                             pacotes.GetElemento(indicePacote).proximoArmazem = pacotes.GetElemento(indicePacote).rota.getItem(0);
 
-                            chave_chegada_para_armazenamento = stoll(criaChaveEventoPacote(tempoAtual + latenciaTransporte, pacote_id));
+                            chave_chegada_para_armazenamento = stoll(criaChaveEventoPacote(tempoAtual + latenciaTransporte, pacote_idpac));
                         }
 
                         minHeap.insert(chave_chegada_para_armazenamento);

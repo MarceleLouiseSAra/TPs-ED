@@ -17,6 +17,10 @@ pilhaEncadeada::~pilhaEncadeada() {
     this->limpa();
 };
 
+int pilhaEncadeada::size() {
+    return this->tam;
+}
+
 bool pilhaEncadeada::isEmpty() {
     return (this->top == NULL); // se o ponteiro para node "top" apontar para NULL, retorna true
 }
